@@ -17,8 +17,8 @@ public class ClientConnection{
 
 
     private Socket socket;
-    private BufferedReader received_reader;
-    private BufferedReader outgoing_reader;
+    private PrintStream os;
+    private BufferedReader in;
 
     private String host;
     private int port;
@@ -35,10 +35,10 @@ public class ClientConnection{
             socket = new Socket(host, port);
 
             // Create the output stream to write to the server
-            PrintStream os = new PrintStream(socket.getOutputStream());
+            os = new PrintStream(socket.getOutputStream());
 
             // Create the input stream to read from the server
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             // Read incoming data from the server until we have reached the end of the document
             String line = in.readLine();
@@ -50,13 +50,26 @@ public class ClientConnection{
             // Once we have reached the end of our message, we can close out streams and the socket
             in.close();
             os.close();
-            socket.close();
+
 
         }   catch (IOException e) {
                 // If an error occurs we would like to see what happened
                 e.printStackTrace();
         }
 
+
+    }
+
+    public void closeSocketConnection() {
+        // When necessary, close our open socket
+        try {
+            // Attempt to close the socket
+            socket.close();
+
+        }   catch (IOException e) {
+            // If an error occurs catch it and see where the error occurred
+            e.printStackTrace();
+        }
 
     }
 

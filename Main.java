@@ -7,11 +7,19 @@ public class Main {
     private static boolean HOST_VALIDATION = false;
     private static boolean PORT_VALIDATION = false;
 
+    private static boolean USER_VALIDATION = false;
+    private static boolean USERPW_VALIDATION = false;
+
     private static String host;
     private static int port;
 
     public static void main(String[] args) {
+        // Prompt the user for information used to connect to the server
         promptForServer();
+
+        // Prompt the user for the credentials that will used to sign into the server
+        promptForCredentials();
+
 
     }
 
@@ -21,8 +29,8 @@ public class Main {
         Scanner kb = new Scanner(System.in);
 
 
-            // Prompt the user for the server information in order to connect
-            System.out.println("Hello this application allows you to make, comment on, and converse with others on a discussion board\n");
+        // Prompt the user for the server information in order to connect
+        System.out.println("Hello this application allows you to make, comment on, and converse with others on a discussion board\n");
 
         do {
             System.out.println("Please enter the server name and port number in the following format to establish a connection\n");
@@ -51,8 +59,8 @@ public class Main {
             host = server_info[0];
             HOST_VALIDATION = true;
         }   else {
-                System.out.println("Error - you have entered an invalid server name\n");
-                HOST_VALIDATION = false;
+            System.out.println("Error - you have entered an invalid server name\n");
+            HOST_VALIDATION = false;
         }
 
         // Try to validate the entered port number
@@ -73,5 +81,33 @@ public class Main {
 
         // Return to the calling method to continue with the program
         return;
+    }
+
+    protected static void promptForCredentials() {
+        // Initializer section
+        String[] user_info = new String[10];
+        Scanner kb = new Scanner(System.in);
+
+        do {
+            // Prompt for the username to connect with the server and assign it to the first index of our user_info array
+            System.out.println("Please enter the username: ");
+            user_info[0] = kb.nextLine();
+
+            // Prompt for the password to authenticate with the server and assign it to the second index of our user_info array
+            System.out.println("Please enter the password: ");
+            user_info[1] = kb.nextLine();
+
+            // Pass that information to be validated within a separate method
+            validateCredentialInfo(user_info);
+
+        } while(USER_VALIDATION == false || USERPW_VALIDATION == false);
+
+        // Once the above condition is no longer met, we have completed prompting for the credentials information
+        return;
+    }
+
+    protected static void validateCredentialInfo(String[] user_info) {
+        // Validation of credentials will have to be done against the server
+
     }
 }
